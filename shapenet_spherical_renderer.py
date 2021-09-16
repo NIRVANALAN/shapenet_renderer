@@ -22,7 +22,7 @@ opt = p.parse_args(argv)
 instance_name = opt.mesh_fpath.split('/')[-3]
 instance_dir = os.path.join(opt.output_dir, instance_name)
 
-renderer = blender_interface.BlenderInterface(resolution=128)
+renderer = blender_interface.BlenderInterface(resolution=512)
 
 if opt.mode == 'train':
     cam_locations = util.sample_spherical(opt.num_observations, opt.sphere_radius)
@@ -43,4 +43,3 @@ obj_pose = np.concatenate((rot_mat, obj_location.reshape(3,1)), axis=-1)
 obj_pose = np.concatenate((obj_pose, hom_coords), axis=0)
 
 renderer.import_mesh(opt.mesh_fpath, scale=1., object_world_matrix=obj_pose)
-renderer.render(instance_dir, blender_poses, write_cam_params=True)
